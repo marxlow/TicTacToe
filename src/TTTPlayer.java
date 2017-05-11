@@ -36,7 +36,6 @@ public class TTTPlayer {
         // Generate randomly who goes first.
         Random rn = new Random();
         int turn = rn.nextInt(2);
-        
         TTTState state = new TTTState(game_mode, player_one, player_two);
         
         while (!state.hasLost()) {
@@ -48,7 +47,7 @@ public class TTTPlayer {
         }
         System.out.println(GAMEOVER_MESSAGE);
         printScore(state.getWinner());
-
+        
         // Check if the user wants to replay.
         if (replay()) {
             startGame();
@@ -66,15 +65,15 @@ public class TTTPlayer {
         if (mode.equals(MULTI_PLAYER_MODE)) {
             game_mode = MULTI_PLAYER_MODE;
             System.out.println("Bot: You have selected Multi-player mode");
-            System.out.print("Bot: Enter Player One name: ");
+            System.out.print("Bot: Enter (O) Player One name: ");
             player_one = sc.nextLine();
-            System.out.print("Bot: Enter Player Two name: ");
+            System.out.print("Bot: Enter (X) Player Two name: ");
             player_two = sc.nextLine();
 
         } else if (mode.equals(SINGLE_PLAYER_MODE)) {
             game_mode = SINGLE_PLAYER_MODE;
             System.out.println("Bot: You have selected Single player mode");
-            System.out.print("Bot: Enter Player name: ");
+            System.out.print("Bot: Enter (O) Player name: ");
             player_one = sc.nextLine();
             player_two = BOT_NAME; // Bot will by default be player_two all the time.
 
