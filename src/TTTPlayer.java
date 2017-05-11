@@ -1,3 +1,4 @@
+import java.util.Random;
 import java.util.Scanner;
 
 public class TTTPlayer {
@@ -10,6 +11,7 @@ public class TTTPlayer {
     public static final String SINGLE_PLAYER_MODE = "S";
     public static final String REPLAY_YES = "Y";
     public static final String REPLAY_NO = "N";
+    public static final String BOT_NAME = "Bot";
 
     private String player_one;
     private String player_two;
@@ -32,17 +34,19 @@ public class TTTPlayer {
 
     private void startGame() {
         // Generate randomly who goes first.
-        int turn = 0;
+        Random rn = new Random();
+        int turn = rn.nextInt(2);
+        
         TTTState state = new TTTState(game_mode, player_one, player_two);
+        
         while (!state.hasLost()) {
             // Continue playing
             state.makeMove(turn);
+            // Rotate turn between different players.
             turn++;
             turn = turn % 2;
-
         }
         System.out.println(GAMEOVER_MESSAGE);
-        System.out.println("Winner: " + state.getWinner());
         printScore(state.getWinner());
 
         // Check if the user wants to replay.
@@ -50,7 +54,9 @@ public class TTTPlayer {
             startGame();
         }
     }
-
+    
+    // Gets setting information from user before starting game
+    // Sets the game mode and the player names
     private void configureGameMode() {
         Scanner sc = new Scanner(System.in);
         String mode;
@@ -70,7 +76,7 @@ public class TTTPlayer {
             System.out.println("Bot: You have selected Single player mode");
             System.out.print("Bot: Enter Player name: ");
             player_one = sc.nextLine();
-            player_two = "Bot";
+            player_two = BOT_NAME; // Bot will by default be player_two all the time.
 
         } else {
             System.out.println(ERROR_MESSAGE);
@@ -78,19 +84,22 @@ public class TTTPlayer {
             System.out.println(ERROR_MESSAGE + "\n");
             configureGameMode();
         }
-
-        // System.out.println(player_one + " VERSUS " + player_two);
+        
         System.out.println(BEGIN_MESSAGE);
     }
 
-    // Should only be called after a game has ended.
-    // Prints the total score for each player.
+    // Should only be called after a game has ended
+    // Prints the total score for each player
     private void printScore(String winner) {
         if (winner.equals(player_one)) {
             player_one_score++;
         } else if (winner.equals(player_two)) {
             player_two_score++;
+        } else if (winner.equals(TTTState.DRAW_GAME)) {
+            System.out.println("Bot: Draw game!");
+            return;
         }
+        System.out.println("Winner: " + winner);
         System.out.println(player_one + " score: " + player_one_score);
         System.out.println(player_two + " score: " + player_two_score);
     }
@@ -100,7 +109,7 @@ public class TTTPlayer {
         String answer;
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Bot: Type 'y' or 'Y' to play again: ");
+        System.out.print("Bot: Type 'y' or 'Y' to play again, type anything else to exit: ");
         answer = sc.nextLine().trim().toUpperCase();
         if (answer.equals(REPLAY_YES)) {
             return true;
