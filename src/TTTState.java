@@ -101,11 +101,12 @@ public class TTTState {
     private void updateState() {
         available_moves.remove(Integer.valueOf(move));
         move_counts ++;
+        int winning_move = checkWinner();
         
-        if (checkWinner() == PLAYER_ONE_MOVE) {
+        if (winning_move == PLAYER_ONE_MOVE) {
             game_winner = player_one;
             hasLost = true;
-        } else if (checkWinner() == PLAYER_TWO_MOVE) {
+        } else if (winning_move == PLAYER_TWO_MOVE) {
             game_winner = player_two;
             hasLost = true;
         } else if (move_counts == 9) {

@@ -92,13 +92,13 @@ public class TTTPlayer {
     private void printScore(String winner) {
         if (winner.equals(player_one)) {
             player_one_score++;
+            System.out.println("Winner: " + winner);
         } else if (winner.equals(player_two)) {
             player_two_score++;
+            System.out.println("Winner: " + winner);
         } else if (winner.equals(TTTState.DRAW_GAME)) {
             System.out.println("Bot: Draw game!");
-            return;
         }
-        System.out.println("Winner: " + winner);
         System.out.println(player_one + " score: " + player_one_score);
         System.out.println(player_two + " score: " + player_two_score);
     }
